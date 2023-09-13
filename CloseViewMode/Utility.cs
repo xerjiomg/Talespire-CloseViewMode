@@ -6,9 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace LordAshes
+namespace XJ_Nekomancer
 {
-    public partial class PlayerGridPlugin : BaseUnityPlugin
+    public partial class CloseViewMode : BaseUnityPlugin
     {
         public static class Utility
         {
