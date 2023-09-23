@@ -6,7 +6,7 @@ GM to force the camera in "third/first-person mode" on all players
 
 This plugin should prevent other players from seeing locations on the map that their characters shouldn't be able to see.
 
-####### In case anyone wants to make a small donation: https://www.paypal.com/donate/?hosted_button_id=ZR3TV5XJP2LQ4
+###### In case anyone wants to make a small donation: https://www.paypal.com/donate/?hosted_button_id=ZR3TV5XJP2LQ4
 
 ## Change Log
 
