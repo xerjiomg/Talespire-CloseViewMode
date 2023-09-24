@@ -26,7 +26,7 @@ namespace XJ_Nekomancer
         // Plugin info
         public const string Name = "CloseViewMode Plugin";                      // Update plugin name (and give the same name under Project | Properties)
         public const string Guid = "org.XJ_Nekomancer.plugins.CloseViewMode";       // Update user name and plugin id (usually changing 'template' to name of plugin)
-        public const string Version = "1.0.0.0";                            // Update version as appropriate (and use same version under Project | Properties | Assembly Information)
+        public const string Version = "1.0.2.0";                            // Update version as appropriate (and use same version under Project | Properties | Assembly Information)
 
         // Configuration
         //private ConfigEntry<KeyboardShortcut> triggerKey { get; set; }      // Sample configuration for triggering a plugin via keyboard
@@ -80,28 +80,28 @@ namespace XJ_Nekomancer
               LordAshes.FileAccessPlugin.Image.LoadSprite("xj_cvm_ON.png"),
               (cid, obj, mi) => CViewOn(cid),
               true,
-              () => { return true; }
+              () => { return !CloseViewActive; }
           );
             RadialUI.RadialSubmenu.CreateSubMenuItem(CloseViewMode.Guid + ".MainMenuCV",
               "Close View Off",
               LordAshes.FileAccessPlugin.Image.LoadSprite("xj_cvm_OFF.png"),
               (cid, obj, mi) => CViewOff(cid),
               true,
-              () => { return true; }
+              () => { return CloseViewActive; }
           );
             RadialUI.RadialSubmenu.CreateSubMenuItem(CloseViewMode.Guid + ".MainMenuCV",
               "(GM only) Force Close View on all players",
               LordAshes.FileAccessPlugin.Image.LoadSprite("xj_cvm_GMON.png"),
               (cid, obj, mi) => CViewOnGM(cid),
               true,
-              () => { return true; }
+              () =>  { return LocalClient.IsInGmMode; } 
           );
             RadialUI.RadialSubmenu.CreateSubMenuItem(CloseViewMode.Guid + ".MainMenuCV",
               "(GM only) Disable Close View on all players",
               LordAshes.FileAccessPlugin.Image.LoadSprite("xj_cvm_GMOFF.png"),
               (cid, obj, mi) => CViewOffGM(cid),
               true,
-              () => { return true; }
+              () => { return LocalClient.IsInGmMode; }
           );            
 
             var harmony = new Harmony(Guid);
@@ -163,7 +163,7 @@ namespace XJ_Nekomancer
             {
                 CameraController.ToggleCameraMovement(true);
                 if (diagnostics >= DiagnosticMode.high) { Debug.Log("CloseViewMode: CViewOnGM"); }
-                AssetDataPlugin.SendInfo(CloseViewMode.Guid + ".CloseON", null);
+                AssetDataPlugin.SendInfo(CloseViewMode.Guid + ".CloseON", System.DateTime.Now.ToString());
             }
             else
             {
@@ -176,7 +176,7 @@ namespace XJ_Nekomancer
             if (LocalClient.IsInGmMode)
             {
                 if (diagnostics >= DiagnosticMode.high) { Debug.Log("CloseViewMode: CViewOffGM"); }
-                AssetDataPlugin.SendInfo(CloseViewMode.Guid + ".CloseOFF", null);
+                AssetDataPlugin.SendInfo(CloseViewMode.Guid + ".CloseOFF", System.DateTime.Now.ToString());
             }
             else
             {
@@ -193,11 +193,11 @@ namespace XJ_Nekomancer
                 {
                     CViewOn();
                     GMCloseViewActive = true;
-                    ChatManager.SendChatMessageToGms(LocalClient._name.ToString() + "CloseviewMode ON", NGuid.Empty);
+                    ChatManager.SendChatMessageToGms("CloseviewMode ON", NGuid.Empty);
                 }
                 else
                 {
-                    ChatManager.SendChatMessageToGms(LocalClient._name.ToString() + "CloseviewMode can't be activated (not target selected)", NGuid.Empty);
+                    ChatManager.SendChatMessageToGms("CloseviewMode can't be activated (not target selected)", NGuid.Empty);
                 }
             }  
         }
